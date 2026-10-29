@@ -90,6 +90,7 @@ src/lib/              공용 로직 (마스킹, OpenAI 클라이언트 등)
 - `npm run build` / `npm run lint`
 - `npm run test:e2e` — E2E 테스트 (3100 포트에 데모 모드 서버를 띄워 실행)
 - `npm run test:report` — 마지막 E2E 결과 보고서 열기
+- `npm run test:unit` — 단위 테스트 (마스킹)
 
 ## 작업 방식
 

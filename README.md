@@ -40,6 +40,7 @@ npm run dev
 
 ```bash
 npx playwright install chromium   # 처음 한 번
+npm run test:unit                 # 마스킹 단위 테스트
 npm run test:e2e
 npm run test:report               # 결과 보고서 보기
 ```
