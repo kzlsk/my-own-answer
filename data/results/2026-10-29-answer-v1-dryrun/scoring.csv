@@ -1,0 +1,10 @@
+﻿case_id,role_match,question,sentence_no,sentence,label,evidence,note
+r01-frontend__p01-frontend,Y,[dry-run] 공고의 자격요건 중 본인과 가장 맞는 것은 무엇인가요?,1,[dry-run] 저는 이 경험에서 문제를 정의했습니다.,,,
+r01-frontend__p01-frontend,Y,,2,그 결과 지표가 개선됐습니다.,,,
+r01-frontend__p01-frontend,Y,,3,이 경험을 귀사에서도 살리겠습니다.,,,
+r02-backend__p03-qa,N,[dry-run] 공고의 자격요건 중 본인과 가장 맞는 것은 무엇인가요?,1,[dry-run] 저는 이 경험에서 문제를 정의했습니다.,,,
+r02-backend__p03-qa,N,,2,그 결과 지표가 개선됐습니다.,,,
+r02-backend__p03-qa,N,,3,이 경험을 귀사에서도 살리겠습니다.,,,
+r03-qa__p05-pm,N,[dry-run] 공고의 자격요건 중 본인과 가장 맞는 것은 무엇인가요?,1,[dry-run] 저는 이 경험에서 문제를 정의했습니다.,,,
+r03-qa__p05-pm,N,,2,그 결과 지표가 개선됐습니다.,,,
+r03-qa__p05-pm,N,,3,이 경험을 귀사에서도 살리겠습니다.,,,

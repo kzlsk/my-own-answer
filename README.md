@@ -70,3 +70,11 @@ E2E 테스트는 API 키 없이 데모 모드로 실행되어 비용이 들지 �
 ## 평가 지표
 
 핵심 지표는 **내 경험 근거 비율**입니다. 답변 초안의 사실 문장 중 이력서나 사용자 답변에 근거가 있는 문장의 비율을 프롬프트 v1과 v2로 비교합니다. 결과는 `data/results/`에 있습니다.
+
+```bash
+npm run eval -- --target answer --version v1 --limit 5   # 실행 (API 비용 발생)
+npm run eval -- --target answer --version v1 --dry-run   # API 없이 흐름만 확인
+npm run eval:score -- data/results/<결과 폴더>           # 채점 후 집계
+```
+
+테스트 세트는 가상 이력서 5개 × 공개 공고 6개 = 30건이고, 직무가 맞는 5건과 맞지 않는 25건을 나눠서 집계합니다. 채점(문장마다 내경험 / 지어냄 / 일반)은 사람이 합니다.

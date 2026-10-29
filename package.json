@@ -10,6 +10,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:report": "playwright show-report",
+    "eval": "tsx scripts/eval.ts",
+    "eval:score": "tsx scripts/score.ts",
     "test:unit": "tsx --test tests/unit/mask.test.ts"
   },
   "dependencies": {

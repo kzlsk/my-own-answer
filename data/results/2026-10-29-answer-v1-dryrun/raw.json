@@ -1,0 +1,43 @@
+{
+  "target": "answer",
+  "version": "v1",
+  "model": "dry-run",
+  "results": [
+    {
+      "case_id": "r01-frontend__p01-frontend",
+      "resume": "r01-frontend",
+      "posting": "p01-frontend",
+      "role_match": true,
+      "question": {
+        "type": "posting",
+        "question": "[dry-run] 공고의 자격요건 중 본인과 가장 맞는 것은 무엇인가요?"
+      },
+      "output": "[dry-run] 저는 이 경험에서 문제를 정의했습니다. 그 결과 지표가 개선됐습니다. 이 경험을 귀사에서도 살리겠습니다.",
+      "ms": 0
+    },
+    {
+      "case_id": "r02-backend__p03-qa",
+      "resume": "r02-backend",
+      "posting": "p03-qa",
+      "role_match": false,
+      "question": {
+        "type": "posting",
+        "question": "[dry-run] 공고의 자격요건 중 본인과 가장 맞는 것은 무엇인가요?"
+      },
+      "output": "[dry-run] 저는 이 경험에서 문제를 정의했습니다. 그 결과 지표가 개선됐습니다. 이 경험을 귀사에서도 살리겠습니다.",
+      "ms": 0
+    },
+    {
+      "case_id": "r03-qa__p05-pm",
+      "resume": "r03-qa",
+      "posting": "p05-pm",
+      "role_match": false,
+      "question": {
+        "type": "posting",
+        "question": "[dry-run] 공고의 자격요건 중 본인과 가장 맞는 것은 무엇인가요?"
+      },
+      "output": "[dry-run] 저는 이 경험에서 문제를 정의했습니다. 그 결과 지표가 개선됐습니다. 이 경험을 귀사에서도 살리겠습니다.",
+      "ms": 0
+    }
+  ]
+}

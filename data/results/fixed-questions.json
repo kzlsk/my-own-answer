@@ -1,0 +1,27 @@
+{
+  "note": "답변 평가용 고정 질문. 조합마다 question-v1로 만든 질문 중 공고 기반 첫 질문. 지우면 새로 뽑습니다.",
+  "generatedWith": "question-v1",
+  "model": "gpt-4o-mini",
+  "cases": {
+    "r01-frontend__p01-frontend": {
+      "type": "posting",
+      "question": "현대오토에버에서의 기술 Governance 수립을 위해 어떤 측면을 가장 중요하게 고려할 것인지 설명해 주실 수 있나요?"
+    },
+    "r02-backend__p03-qa": {
+      "type": "posting",
+      "question": "귀하가 이 회사에 지원하게 된 이유는 무엇이며, 이 직무에서 어떤 기여를 할 수 있을 것이라고 생각하시나요?"
+    },
+    "r03-qa__p05-pm": {
+      "type": "posting",
+      "question": "중화권 광고 시장의 현재 트렌드에 대해 어떻게 분석하고 있으며, 이를 사업에 어떻게 적용할 계획인가요?"
+    },
+    "r04-marketing__p01-frontend": {
+      "type": "posting",
+      "question": "채용공고에는 SSO와 OAuth2 기반 인증/인가 서비스 개발이 포함되어 있습니다. 이에 대한 이해도를 높이기 위해 어떤 공부를 해왔나요?"
+    },
+    "r05-pm__p03-qa": {
+      "type": "posting",
+      "question": "우아한형제들에서의 QA Engineer 직무는 어떻게 커머스 기반 품질 관리에 기여할 수 있을까요? 귀하의 경험과 아이디어를 기반으로 답변해 주세요."
+    }
+  }
+}
