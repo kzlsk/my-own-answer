@@ -8,10 +8,12 @@
 | | |
 | --- | --- |
 | 배포 | **https://my-own-answer.vercel.app** — API 비용 때문에 데모 모드로 운영합니다. **샘플로 체험하기**로 처음부터 결과 정리까지 볼 수 있어요 |
-| 시연 영상 | [my-own-answer-demo.mp4 (1분 25초)](docs/demo/my-own-answer-demo.mp4) |
+| 시연 영상 | [my-own-answer-demo.mp4 (1분 25초)](https://github.com/user-attachments/assets/09582172-7683-4939-b8bf-cb47d65375d3) |
 | 발표 핵심 | 내 경험 근거 비율 **42.9% → 90.0%**, 모의면접 꼬리질문 지어냄 **0 / 15** |
 
 ![시연 미리보기 (5배속)](docs/demo/preview.gif)
+
+https://github.com/user-attachments/assets/09582172-7683-4939-b8bf-cb47d65375d3
 
 ---
 
