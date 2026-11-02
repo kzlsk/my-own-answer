@@ -69,7 +69,40 @@ function questionReport(): string {
   ].join("\n");
 }
 
-const report = "label" in (rows[0] ?? {}) ? answerReport() : questionReport();
+/**
+ * 모의면접 꼬리질문 (TC-504): 근거 / 지어냄 / 일반 / 다시요청
+ * 앱은 intent가 off_topic이면 꼬리질문 대신 "다시 답해 달라"고 하므로(꼬리질문 개수에 세지 않음) 다시요청은 따로 센다.
+ */
+function interviewReport(): string {
+  const norm = (s: string) => s.replace(/\s+/g, "");
+  const labels = ["근거", "지어냄", "일반", "다시요청"];
+  const unlabeled = rows.filter((r) => !labels.includes(norm(r.followup_label)) && (r.app_action ?? r.action) !== "feedback");
+  const group = (name: string, f: (r: Record<string, string>) => boolean) => {
+    const g = rows.filter(f);
+    const n = (l: string) => g.filter((r) => norm(r.followup_label) === l).length;
+    const asked = n("근거") + n("지어냄") + n("일반");
+    return `| ${name} | ${g.length} | ${asked} | ${pct(n("근거"), n("근거") + n("지어냄"))} | ${pct(n("근거"), g.length)} | ${n("지어냄")} | ${n("근거")} | ${n("일반")} | ${n("다시요청")} |`;
+  };
+  return [
+    `# 채점 집계 — ${path.basename(dir)}`,
+    "",
+    "- **근거 비율** = 근거 ÷ (근거 + 지어냄). 특정 경험을 전제하지 않는 일반 질문은 분모에서 뺀다.",
+    "- **답을 파고든 비율** = 근거 ÷ 전체 답. 질문 되풀이·일반 질문·다시 요청이 많으면 낮아진다.",
+    "- **다시요청** = 무관한 답으로 보고 다시 답을 부탁한 경우 (앱에서는 꼬리질문이 아님)",
+    "",
+    "| 구분 | 답 수 | 꼬리질문 수 | 근거 비율 | 답을 파고든 비율 | 지어냄 | 근거 | 일반 | 다시요청 |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    group("전체", () => true),
+    group("A 정상 답", (r) => r.scenario.startsWith("A")),
+    group("모호한 답 (B·C)", (r) => /^[BC]/.test(r.scenario)),
+    "",
+    unlabeled.length ? `채점 안 된 꼬리질문 ${unlabeled.length}개는 제외했습니다.` : "모든 답이 채점됐습니다.",
+    "",
+  ].join("\n");
+}
+
+const first = rows[0] ?? {};
+const report = "followup_label" in first ? interviewReport() : "label" in first ? answerReport() : questionReport();
 writeFileSync(path.join(dir, "score.md"), report);
 console.log(report);
 console.log(`저장: ${path.join(dir, "score.md")}`);
