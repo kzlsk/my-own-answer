@@ -8,15 +8,16 @@ AI 네이티브 커리어 캠프 2기 1차 프로젝트(개인, 5일). 개발 �
 
 ## 핵심 흐름 (이 순서로 만든다)
 
-1. 이력서 업로드(PDF/텍스트) + 채용공고 붙여넣기
-2. 개인정보(이름·전화번호·이메일) 마스킹 — **API 호출 전에** 처리
+1. 이력서 업로드(PDF/텍스트) + 채용공고 붙여넣기 (복사가 막힌 공고는 PDF 저장 또는 스크린샷 → `/api/posting`)
+2. 개인정보(이름·생년월일·전화번호·이메일·링크 + 사용자가 지정한 단어) 마스킹 — **API 호출 전에** 처리. 이력서 파일은 브라우저에서 글자만 뽑아 보내고 원본은 서버로 보내지 않는다
+2-1. 이력서 정리: 가린 이력서를 정해진 섹션의 MD로 정리(`/api/resume/structure`) + 수치 보존 검사 → 사용자가 확인·수정
 3. 예상 질문 생성: 이력서 / 직무 / 공고 기반
 4. 질문 선택 → 관련 경험을 먼저 질문
 5. 사용자 답변에 있는 경험만으로 답변 초안 생성
 6. 텍스트 모의면접: 질문 → 답 → 꼬리질문 1~2개 → 질문별 피드백
 7. 결과 정리: HTML 저장, Notion용 Markdown 복사
 
-범위 밖: 음성 면접, ZEP 스타일 화면, Notion API 업로드, 로그인/DB, RAG.
+범위 밖: 공고 링크 자동 수집(약관·차단 문제), 음성 면접, ZEP 스타일 화면, Notion API 업로드, 로그인/DB, RAG.
 RAG를 쓰지 않는 이유: 근거 자료(이력서 1, 공고 1, 질문·답변 20개 내외)가 작아서 프롬프트에 통째로 넣는다.
 
 ## 스택
@@ -32,8 +33,9 @@ RAG를 쓰지 않는 이유: 근거 자료(이력서 1, 공고 1, 질문·답변
 - 프롬프트는 코드에 하드코딩하지 않고 `prompts/*.md` 파일로 둔다. 파일명에 버전을 붙인다 (`question-v1.md`, `question-v2.md`).
 - 프롬프트를 바꾸면 루트의 `프롬프트.md`에 변경 이유와 결과 수치를 남긴다.
 - AI가 틀린 코드를 냈다가 고친 사례는 `docs/ai-log.md`에 남긴다.
-- 실제 개인정보·회사 내부 자료는 저장소에 넣지 않는다. 테스트 데이터는 가상 인물/공개 공고만.
+- 실제 개인정보·회사 내부 자료는 저장소에 넣지 않는다. 테스트 데이터는 가상 인물/공개 공고만. 실제 문서에서 발견한 형식은 같은 구조의 가상 데이터로 재현해 테스트한다.
 - UI 문구는 한국어.
+- 디자인: 색은 `globals.css`의 토큰(`bg-paper`, `text-ink`, `text-muted`, `border-line`, `text-accent` 등)만 쓴다. 질문과 면접관의 말은 `font-serif`, 사용자가 쓴 경험에는 `.marker`(형광펜). Tailwind 기본 색(teal, neutral 등)을 새로 쓰지 않는다.
 
 ## 안정성 (반드시 막고 시연)
 
@@ -80,7 +82,10 @@ docs/qa/              TC, 버그 리포트, 테스트 결과 보고서
 tests/e2e/            Playwright 테스트 (테스트 이름에 TC ID)
 프롬프트.md           제출용 프롬프트 기록
 src/app/api/          OpenAI 호출 Route Handler
-src/lib/              공용 로직 (마스킹, OpenAI 클라이언트 등)
+src/lib/              공용 로직 (마스킹, 공고 판별, 출력 정리, OpenAI 호출, 입력 제한)
+src/components/       화면 (PrepFlow: 단계 4개 — 준비 · 질문과 답변 · 모의면접 · 결과 정리, MockInterview, ExportPanel, ui: 공용 컴포넌트)
+src/app/globals.css   디자인 토큰 (paper · ink · accent · marker 등, 다크 모드 포함)
+src/demo/demo.json    데모 모드 샘플
 .github/workflows/    push마다 lint · build · E2E 자동 실행
 ```
 
@@ -90,9 +95,13 @@ src/lib/              공용 로직 (마스킹, OpenAI 클라이언트 등)
 - `npm run build` / `npm run lint`
 - `npm run test:e2e` — E2E 테스트 (3100 포트에 데모 모드 서버를 띄워 실행)
 - `npm run test:report` — 마지막 E2E 결과 보고서 열기
-- `npm run test:unit` — 단위 테스트 (마스킹)
+- `npm run test:unit` — 단위 테스트 (마스킹, 공고 판별, 정리, 판독 채점, 면접 규칙, 내보내기)
 - `npm run eval -- --target answer --version v1 --limit 5` — 프롬프트 평가 (`--dry-run`이면 API 호출 없음)
 - `npm run eval:score -- <결과 폴더>` — 사람이 채운 scoring.csv 집계
+- `npm run eval:structure` — 형식별 가상 이력서(`data/resumes-raw/`) 정리 수치 보존율
+- `npm run eval:interview -- --version v1` — 모의면접 꼬리질문 근거 평가 (TC-504). 정상 답·모호한 답 2가지로 첫 꼬리질문을 받아 scoring.csv 생성
+- `npm run eval:ocr` — 공고 스크린샷(`data/postings-image/`) 판독 글자 정확도. 키를 넣고 `npm run dev`를 켜 둔 상태에서 실행 (`--score <폴더>`면 채점만)
+- `npm run demo:build` — 데모 모드 샘플(`src/demo/demo.json`)을 실제 생성 결과로 다시 만들기 (API 비용 발생)
 
 ## 작업 방식
 
