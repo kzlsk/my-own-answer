@@ -1,0 +1,55 @@
+# 👋 안녕하세요, 백엔드 개발자 견태오입니다
+
+> 💡 트래픽이 몰리는 순간에도 데이터가 틀리지 않는 서버를 만듭니다.
+
+📧 taeo.gyeon@example.com · 📞 010 1234 5678 · 🔗 https://github.com/taeo-gyeon
+
+---
+
+## 🛠 Tech Stack
+
+| 구분 | 기술 |
+| --- | --- |
+| Language | Java 17, Kotlin |
+| Framework | Spring Boot, Spring Batch, JPA |
+| Data | MySQL, Redis, Kafka |
+| Infra | AWS (EC2, RDS, SQS), Docker |
+
+## 💼 Experience
+
+▶ **하늘정산** · 백엔드 개발자 · 2022.07 ~ 재직 중
+
+- 가맹점 정산 배치, 외부 결제사 연동
+
+▶ **무대티켓** · 백엔드 개발자 · 2020.01 ~ 2022.06
+
+- 공연 예매 시스템, 좌석 선점·결제 API
+
+## 🚀 Projects
+
+▶ 🎫 좌석 중복 판매 해결 (2021.02 ~ 2021.04)
+
+- 인기 공연 예매 오픈 시 동시 접속 약 4,000명, 같은 좌석이 공연 1회에 3~5건 중복 판매
+- Redis 분산 락으로 좌석 단위 선점 + DB 유니크 제약
+- nGrinder로 동시 5,000명 부하 테스트
+- ✅ 이후 공연 40회 연속 중복 판매 0건, 좌석 선점 p95 1.9초 → 0.4초
+
+▶ 📊 정산 배치 시간 단축 (2023.01 ~ 2023.03)
+
+- 가맹점 1만 2천 곳 일일 정산 3시간 40분 → 35분
+- 복합 인덱스, 1,000건 청크 + 일괄 INSERT, 스레드 4개 병렬
+
+## 🔥 Trouble Shooting
+
+▶ 외부 결제사 응답 지연 (하늘정산)
+
+> 결제사 한 곳이 10초 이상 응답하지 않아 스레드가 모두 대기 → Resilience4j 서킷 브레이커 + 3초 타임아웃, 실패 건 SQS 재처리 → 장애 중에도 다른 API 정상
+
+▶ 정산 내역 N+1 쿼리 (하늘정산)
+
+> 100건 조회에 쿼리 101번, 응답 2.3초 → fetch join + batch size → 0.3초
+
+## 🏆 Awards & Certificates
+
+- 2022.04 AWS Certified Solutions Architect – Associate
+- 2019.11 한결대학교 졸업작품 전시회 우수상
