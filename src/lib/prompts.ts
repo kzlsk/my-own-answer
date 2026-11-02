@@ -6,7 +6,7 @@ import path from "node:path";
  * 앱(API 라우트)과 평가 스크립트가 같은 파일을 쓰도록 한 곳에서 관리한다.
  */
 
-export type PromptTarget = "question" | "answer" | "interviewer";
+export type PromptTarget = "question" | "experience" | "answer" | "interviewer" | "interview-feedback" | "posting-ocr" | "resume-structure";
 
 export function promptPath(target: PromptTarget, version: string): string {
   return path.join(process.cwd(), "prompts", `${target}-${version}.md`);
