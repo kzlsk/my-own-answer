@@ -20,6 +20,24 @@ type Props = {
   sampleAnswer?: string | null;
 };
 
+/** 가상 인물의 경험 답변("- [제목] 상황: … / 내가 한 일: … / 결과: …")을 말하는 듯한 짧은 답 여러 개로 나눈다 */
+function toSampleAnswers(text: string): string[] {
+  const items = text
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith("- "))
+    .map((l) =>
+      l
+        .replace(/^-\s*/, "")
+        .replace(/^\[[^\]]+\]\s*/, "")
+        .replace(/(상황|내가 한 일|결과)\s*:\s*/g, "")
+        .replace(/\s*\/\s*/g, " ")
+        .trim(),
+    )
+    .filter(Boolean);
+  return items.length ? items : [text.trim()];
+}
+
 type Phase = "ready" | "running" | "done";
 
 /** 텍스트 모의면접: 질문 → 내 답 → 꼬리질문(최대 2개) → 질문별 피드백 (TC-501~510) */
@@ -35,6 +53,8 @@ export default function MockInterview({ drafts, resume, posting, demoMode, onRec
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [doneCount, setDoneCount] = useState(0);
+  const [sampleIndex, setSampleIndex] = useState(0);
+  const sampleAnswers = sampleAnswer ? toSampleAnswers(sampleAnswer) : [];
   const logEnd = useRef<HTMLLIElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -205,7 +225,14 @@ export default function MockInterview({ drafts, resume, posting, demoMode, onRec
               </FieldHint>
               <div className="flex gap-2">
                 {sampleAnswer && (
-                  <Button variant="ghost" onClick={() => setInput(sampleAnswer)} disabled={busy}>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      setInput(sampleAnswers[sampleIndex % sampleAnswers.length]);
+                      setSampleIndex((i) => i + 1);
+                    }}
+                    disabled={busy}
+                  >
                     샘플 답 채우기
                   </Button>
                 )}
