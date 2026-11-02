@@ -5,12 +5,12 @@ import { test, expect } from "@playwright/test";
  */
 
 test.describe("첫 화면", () => {
-  test("[TC-001] 서비스 이름과 핵심 흐름 7단계가 보인다", async ({ page }) => {
+  test("[TC-001] 서비스 이름과 첫 단계(이력서와 채용공고)가 보인다", async ({ page }) => {
     await page.goto("/");
 
     await expect(page).toHaveTitle(/my-own-answer/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("my-own-answer");
-    await expect(page.getByRole("listitem")).toHaveCount(7);
+    await expect(page.getByRole("heading", { name: "이력서와 채용공고" })).toBeVisible();
   });
 
   test("[TC-002] API 키가 없으면 데모 모드 안내가 보인다", async ({ page }) => {

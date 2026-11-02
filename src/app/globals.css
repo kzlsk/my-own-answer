@@ -1,24 +1,93 @@
 @import "tailwindcss";
 
+/*
+ * my-own-answer 디자인 토큰
+ * - 종이(paper) 위에 잉크(ink)로 쓰는 면접 준비 노트. 강조색은 하나(accent)만 쓰고,
+ *   "내 경험"에만 형광펜(marker)을 칠한다.
+ * - 질문과 면접관의 말은 명조(Noto Serif KR), 내가 쓰는 글과 화면 글자는 고딕(Pretendard)
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --paper: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #1c2433;
+  --muted: #5b6573;
+  --line: #d9dee6;
+  --accent: #2457d6;
+  --soft: #eaf0fd;
+  --marker: #ffe58a;
+  --ok: #1f7a55;
+  --ok-soft: #e7f4ee;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  --warn-soft: #fff6db;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #12161e;
+    --surface: #1a202b;
+    --ink: #e7ebf2;
+    --muted: #9aa4b2;
+    --line: #2c3442;
+    --accent: #7ea2ff;
+    --soft: #1e2a44;
+    --marker: #6b5a12;
+    --ok: #5cc79a;
+    --ok-soft: #15281f;
+    --danger: #ff8a80;
+    --danger-soft: #2e1715;
+    --warn-soft: #2a2410;
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-soft: var(--soft);
+  --color-marker: var(--marker);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warn-soft: var(--warn-soft);
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-serif: "Noto Serif KR", "Apple Myungjo", "Batang", serif;
+}
+
+html {
+  background: var(--paper);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss06";
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 형광펜: "내 경험"처럼 사용자가 직접 쓴 근거에만 */
+.marker {
+  background: linear-gradient(transparent 58%, var(--marker) 58%);
+  padding: 0 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
